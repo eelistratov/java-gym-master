@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Timetable {
 
-    private final Map<DayOfWeek, Map<TimeOfDay, List<TrainingSession>>> timetable;
+    private final Map<DayOfWeek, TreeMap<TimeOfDay, List<TrainingSession>>> timetable;
 
     //Конструктор создаёт пустое расписание
     public Timetable() {
@@ -33,15 +33,12 @@ public class Timetable {
     }
 
     //Получить расписание на день недели
-    public List<TrainingSession> getTrainingSessionsForDay(DayOfWeek dayOfWeek) {
-        List<TrainingSession> result = new ArrayList<>();
-        Map<TimeOfDay, List<TrainingSession>> daySchedule = timetable.get(dayOfWeek);
-
-        for (List<TrainingSession> sessions : daySchedule.values()) {
-            result.addAll(sessions);
+    public TreeMap<TimeOfDay, List<TrainingSession>> getTrainingSessionsForDay(DayOfWeek dayOfWeek) {
+        TreeMap<TimeOfDay, List<TrainingSession>> trainingsForDay = timetable.get(dayOfWeek);
+        if (trainingsForDay == null) {
+            return new TreeMap<>();
         }
-
-        return result; // O(n) - количество тренировок за день
+        return trainingsForDay;
     }
 
     //Получить расписание по указанному времени
@@ -49,7 +46,7 @@ public class Timetable {
         Map<TimeOfDay, List<TrainingSession>> daySchedule = timetable.get(dayOfWeek);
         List<TrainingSession> sessions = daySchedule.get(timeOfDay);
 
-        return sessions != null ? new ArrayList<>(sessions) : new ArrayList<>(); // O(1)
+        return sessions != null ? sessions : new ArrayList<>(); // O(1)
     }
 
     //Количество тренировок каждого тренера за неделю
