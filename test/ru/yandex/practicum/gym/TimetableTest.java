@@ -20,8 +20,8 @@ public class TimetableTest {
 
         //Проверить, что за понедельник вернулось одно занятие
         TreeMap<TimeOfDay, List<TrainingSession>> mondaySchedule = timetable.getTrainingSessionsForDay(DayOfWeek.MONDAY);
-        TrainingSession firstSession = mondaySchedule.firstEntry().getValue().get(0);
         Assertions.assertEquals(1, mondaySchedule.size());
+        TrainingSession firstSession = mondaySchedule.firstEntry().getValue().get(0);
         Assertions.assertEquals(singleTrainingSession, firstSession);
 
         //Проверить, что за вторник не вернулось занятий
@@ -56,7 +56,9 @@ public class TimetableTest {
         // Проверить, что за понедельник вернулось одно занятие
         TreeMap<TimeOfDay, List<TrainingSession>> mondaySchedule = timetable.getTrainingSessionsForDay(DayOfWeek.MONDAY);
         Assertions.assertEquals(1, mondaySchedule.size());
-        Assertions.assertEquals(mondayChildTrainingSession, mondaySchedule.get(0));
+
+        TrainingSession mondayFirstSession = mondaySchedule.firstEntry().getValue().get(0);
+        Assertions.assertEquals(mondayChildTrainingSession, mondayFirstSession);
 
         // Проверить, что за четверг вернулось два занятия в правильном порядке: сначала в 13:00, потом в 20:00
         TreeMap<TimeOfDay, List<TrainingSession>> thursdaySchedule = timetable.getTrainingSessionsForDay(DayOfWeek.THURSDAY);
